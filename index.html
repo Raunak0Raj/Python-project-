@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expense Tracker Pro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo">₹</span><div><h1>Expense Tracker</h1><p>Python • SQLite • REST API</p></div></div>
+  <div class="actions">
+    <input type="month" id="month" aria-label="Month">
+    <a class="btn ghost" id="exportBtn" href="#">⬇ CSV</a>
+    <button class="btn ghost" id="themeBtn" title="Toggle theme">🌙</button>
+    <button class="btn primary" id="addBtn">+ Add Expense</button>
+  </div>
+</header>
+
+<main>
+  <section class="stats">
+    <article class="card stat"><span class="label">Total spent</span><strong id="sTotal">₹0</strong><small id="sDelta"></small></article>
+    <article class="card stat"><span class="label">Transactions</span><strong id="sCount">0</strong><small>this month</small></article>
+    <article class="card stat"><span class="label">Daily average</span><strong id="sAvg">₹0</strong><small>per day</small></article>
+    <article class="card stat"><span class="label">Top category</span><strong id="sTop">—</strong><small id="sTopAmt"></small></article>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>Spending by category</h2>
+      <div class="donut-wrap">
+        <div class="donut" id="donut"><div class="hole"><span id="donutTotal">₹0</span><small>total</small></div></div>
+        <ul class="legend" id="legend"></ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>6-month trend</h2>
+      <div class="bars" id="trend"></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><h2>Budgets</h2><button class="btn small" id="budgetBtn">Set budget</button></div>
+      <div id="budgets"></div>
+    </article>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Expenses</h2>
+      <div class="filters">
+        <input type="search" id="search" placeholder="Search description, category…">
+        <select id="filterCat"></select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Payment</th><th class="num">Amount</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>No expenses found. Click <b>+ Add Expense</b> to start 🚀</div>
+    </div>
+  </section>
+</main>
+
+<!-- Add / Edit modal -->
+<dialog id="expenseModal">
+  <form id="expenseForm" method="dialog">
+    <h3 id="modalTitle">Add Expense</h3>
+    <input type="hidden" id="fId">
+    <label>Amount (₹)<input type="number" id="fAmount" step="0.01" min="0.01" required placeholder="0.00"></label>
+    <div class="two">
+      <label>Date<input type="date" id="fDate" required></label>
+      <label>Payment<select id="fPayment"></select></label>
+    </div>
+    <label>Category<select id="fCategory"></select></label>
+    <label>Description<input type="text" id="fDesc" maxlength="120" placeholder="e.g. Lunch with friends"></label>
+    <div class="modal-actions">
+      <button type="button" class="btn ghost" data-close>Cancel</button>
+      <button type="submit" class="btn primary">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Budget modal -->
+<dialog id="budgetModal">
+  <form id="budgetForm" method="dialog">
+    <h3>Set Monthly Budget</h3>
+    <label>Category<select id="bCategory"></select></label>
+    <label>Monthly limit (₹)<input type="number" id="bLimit" min="1" step="1" required></label>
+    <div class="modal-actions">
+      <button type="button" class="btn ghost" data-close>Cancel</button>
+      <button type="submit" class="btn primary">Save budget</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toasts"></div>
+<script src="app.js"></script>
+</body>
+</html>
